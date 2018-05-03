@@ -12,7 +12,58 @@
   .navbar-custom1 .navbar-text {
       color: rgba(255,255,255,.8);
   }
+  .innerTopDiv
+  {
 
+      text-align: right;
+
+  }
+    .modal {
+      display: none;
+      /* Hidden by default */
+      position: fixed;
+      /* Stay in place */
+      z-index: 1;
+      /* Sit on top */
+      padding-top: 100px;
+      /* Location of the box */
+      left: 0;
+      top: 0;
+      width: 100%;
+      /* Full width */
+      height: 100%;
+      /* Full height */
+      overflow: auto;
+      /* Enable scroll if needed */
+      background-color: rgb(0, 0, 0);
+      /* Fallback color */
+      background-color: rgba(0, 0, 0, 0.4);
+      /* Black w/ opacity */
+    }
+
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 40%;
+    }
+
+
+    .close {
+      color: #aaaaaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
   
   </style>
 </head>
@@ -57,50 +108,85 @@
   </thead>
   <tbody>
     <tr class="active">
-      <td height = "80">Person 1 Name</td>
-      <td height = "80">High</td>
+      <td height = "80" id="news1">Ema Triana</td>
+      <td height = "80" >High</td>
       <td height = "80">Robbery</td>
       <td height = "80">03/04/2018 11:30 PM</td>
-      <td height="80" onclick="alertbox()"><button> Contact </button></td>
+      <td height="80" id="myBtn" onclick="alertbox()"><button> Contact </button></td>
 
     </tr>
     <tr class="success">
-      <td height = "80">Person 2 Name</td>
+      <td height = "80" id="news2">Sam Alarcon</td>
       <td height = "80">Low</td>
       <td height = "80">Electricity Outage</td>
       <td height = "80">03/04/2018 9:30 PM</td>
-      <td height="80" onclick="alertbox()"><button> Contact </button></td>
+      <td height="80" id="myBtn1" onclick="alertbox()"><button> Contact </button></td>
     </tr>
     <tr class="danger">
-      <td height = "80">Person 3 Name</td>
+      <td height = "80" id="news3">Taylor Mcvey</td>
       <td height = "80">High</td>
       <td height = "80">Fire</td>
       <td height = "80">03/04/2018 5:30 PM</td>
-      <td height="80" onclick="alertbox()"><button> Contact </button></td>
+      <td height="80" id="myBtn2" onclick="alertbox()"><button> Contact </button></td>
     </tr>
     <tr class="info">
-      <td height = "80">Person 4 Name</td>
+      <td height = "80" id="news4">Tomas Shenkel</td>
       <td height = "80">Low</td>
       <td height = "80">Slippery Conditions</td>
       <td height = "80">03/04/2018 7:30 AM</td>
-      <td height="80" onclick="alertbox()"><button> Contact </button></td>
+      <td height="80" id="myBtn3" onclick="alertbox()"><button> Contact </button></td>
     </tr>
     <tr class="warning">
-      <td height = "80">Person 5 Name</td>
+      <td height = "80" id="news5">Justina Medved</td>
       <td height = "80">High</td>
       <td height = "80">Gun Shots</td>
       <td height = "80">03/03/2018 5:30 AM </td>
-      <td height="80" onclick="alertbox()"><button> Contact </button></td>
+      <td height="80" id="myBtn4" onclick="alertbox()"><button> Contact </button></td>
     </tr>
     <tr class="active">
-      <td height = "80">Person 6 Name</td>
+      <td height = "80" id="news6">Susan Hollier</td>
       <td height = "80">Low</td>
       <td height = "80">Severe Winter Weather</td>
       <td height = "80">03/03/2018 12:30 AM</td>
-      <td height="80" onclick="alertbox()"><button> Contact </button></td>
+      <td height="80" id="myBtn5" onclick="alertbox()"><button> Contact </button></td>
     </tr>
   </tbody>
 </table>
+
+<div id="myModal" class="modal">
+
+
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <form id="form1" align="center">
+      <span class = "innerHTML">
+      <!-- <label id="innerTopDiv">Contact Details</label></span> -->
+      <h1> Contact Details </h1>
+      <br><br>
+    <label> Person Name: </label>
+    <label id  = "innerTopDiv"></label>
+
+    <br></br>
+    <label> Contact Number: </label>
+    <label><a href="sms:1-000-000-0000">Call the Person</a></label>
+    <br></br>
+    <label> Address: </label>
+    <br></br>
+    <label> Email: </label>
+    <label> <a href="mailto:someone@example.com?Subject=Emergency%20Status" target="_top">Send Email </a></label>
+    <br> </br>
+    <label> Description </label>
+    <br>
+    <textarea rows="4" id = "desid" cols="50" name = "WriteNews" placeholder="Type message here!!!"></textarea>
+      <br><br>
+      <input type= "submit" value="Cancel">
+
+      <input type= "submit" value="Message" onclick="ReplaceString()">
+
+    </form>
+  </div>
+
+</div>
 
 
 
@@ -111,4 +197,69 @@
 
 
 </body>
+
+<script>
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+var btn1 = document.getElementById("myBtn1");
+var btn2 = document.getElementById("myBtn2");
+var btn3 = document.getElementById("myBtn3");
+var btn4 = document.getElementById("myBtn4");
+var btn5 = document.getElementById("myBtn5");
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal
+btn.onclick = function() {
+  modal.style.display = "block";
+  var _text = document.getElementById('news1');
+  document.getElementById("innerTopDiv").innerHTML = _text.innerHTML;
+}
+btn1.onclick = function() {
+  modal.style.display = "block";
+  var _text = document.getElementById('news2');
+  document.getElementById("innerTopDiv").innerHTML = _text.innerHTML;
+}
+btn2.onclick = function() {
+  modal.style.display = "block";
+  var _text = document.getElementById('news3');
+  document.getElementById("innerTopDiv").innerHTML = _text.innerHTML;
+}
+btn3.onclick = function() {
+  modal.style.display = "block";
+  var _text = document.getElementById('news4');
+  document.getElementById("innerTopDiv").innerHTML = _text.innerHTML;
+}
+btn4.onclick = function() {
+  modal.style.display = "block";
+  var _text = document.getElementById('news4');
+  document.getElementById("innerTopDiv").innerHTML = _text.innerHTML;
+}
+btn5.onclick = function() {
+  modal.style.display = "block";
+  var _text = document.getElementById('news5');
+
+  document.getElementById("innerTopDiv").innerHTML = _text.innerHTML;
+}
+span.onclick = function() {
+  modal.style.display = "none";
+}
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+function ReplaceString() {
+
+
+alert("Message Sent!!!")
+
+}
+
+
+</script>
+
 </html>

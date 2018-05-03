@@ -16,7 +16,7 @@
 <style>
 #map {
   height: 400px;
-  width : 50%;
+  width : 70%;
 }
 </style>
 </head>
@@ -40,7 +40,7 @@
 </nav>
 
 <div class="container">
-  <h3>Road Closure</h3>
+  <h3>Evacuation Map Location</h3>
 
 </div>
 
@@ -51,16 +51,37 @@
 <script>
 function initMap()
 {
-  var uluru = {lat: 39.9552617, lng:  -75.189807};
+  var uluru = {lat: 39.735467, lng: -75.065313};
+
+  var locations = [
+     ['Kennedy University Hospital Washington Township', 39.734070, -75.065646, 4],
+     ['Inspira Medical Center Woodbury', 39.844066, -75.149947, 5],
+
+   ];
+
+
+
+
   var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 9,
+    zoom: 10,
     center: uluru
+
   });
 
-  var marker = new google.maps.Marker({
-    position: uluru,
-    map: map
-  });
+var marker, i;
+for (i = 0; i < locations.length; i++) {
+      marker = new google.maps.Marker({
+        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+        map: map
+      });
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            return function() {
+              infowindow.setContent(locations[i][0]);
+              infowindow.open(map, marker);
+            }
+          })(marker, i));
+        }
+
 }
 
 
@@ -73,7 +94,15 @@ $('#container').html(data.sample);
 
 
 </script>
+<br>
 
+Emergency Evacuation Locations:
+<h4> Kennedy University Hospital Washington Township </h4>
+<h6> <a href = "https://www.google.com/maps/place/435+Hurffville+-+Cross+Keys+Rd,+Sewell,+NJ+08080/@39.8432504,-75.2641016,11z/am=t/data=!4m21!1m15!4m14!1m6!1m2!1s0x89c6c64e4847c029:0xef32de4043c30f0!2sDrexel+University,+Chestnut+Street,+Philadelphia,+PA!2m2!1d-75.1899441!2d39.9566127!1m6!1m2!1s0x89c6d6a8a029de09:0x7a9106aa35f40405!2s435+Hurffville+-+Cross+Keys+Rd,+Sewell,+NJ+08080!2m2!1d-75.0653126!2d39.7354667!3m4!1s0x89c6d6a8a029de09:0x7a9106aa35f40405!8m2!3d39.7354667!4d-75.0653126"> 435 Hurffville-Cross Keys Road
+  Turnersville, NJ 08012 </a></h6>
+<h4> Inspira Medical Center Woodbury </h4>
+<h6><a href = "https://www.google.com/maps/place/509+N+Broad+St,+Woodbury,+NJ+08096/@39.8440659,-75.1521354,17z/am=t/data=!3m1!4b1!4m5!3m4!1s0x89c6cff973589d9b:0x748a6249fda95ac5!8m2!3d39.8440659!4d-75.1499467"> 509 North Broad Street
+      Woodbury, NJ 08096</a>
 <script async defer
 src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDEE6TIfmppZTMCiMNg1mhuwBn3KoF5Eys&callback=initMap">
 
