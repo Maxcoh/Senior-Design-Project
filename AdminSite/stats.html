@@ -168,12 +168,15 @@
 
     <br></br>
     <label> Contact Number: </label>
-    <label><a href="sms:1-000-000-0000">Call the Person</a></label>
+    <!-- <label id = "callnumber"><a href="sms:1-000-000-0000">Call the Person</a></label> -->
+    <label id = "callnumber"></label>
     <br></br>
     <label> Address: </label>
+    <label id = "address"> </label>
     <br></br>
     <label> Email: </label>
-    <label> <a href="mailto:someone@example.com?Subject=Emergency%20Status" target="_top">Send Email </a></label>
+    <!-- <label id = "email"> <a href="mailto:someone@example.com?Subject=Emergency%20Status" target="_top">Send Email </a></label> -->
+    <label id = "email"></label>
     <br> </br>
     <label> Description </label>
     <br>
@@ -187,15 +190,6 @@
   </div>
 
 </div>
-
-
-
-
-
-
-
-
-
 </body>
 
 <script>
@@ -215,33 +209,68 @@ var span = document.getElementsByClassName("close")[0];
 btn.onclick = function() {
   modal.style.display = "block";
   var _text = document.getElementById('news1');
+  var address = "3487 Green Circle \n Clayton, NJ 08312";
+  var number = "(856) 345-9238";
+  var email = "ema_cool4u@gmail.com";
   document.getElementById("innerTopDiv").innerHTML = _text.innerHTML;
+  document.getElementById("callnumber").innerHTML = number;
+  document.getElementById("address").innerHTML = address;
+  document.getElementById("email").innerHTML =  ("<a href = mailto:"+email+">"+email+"</a>");
 }
 btn1.onclick = function() {
   modal.style.display = "block";
   var _text = document.getElementById('news2');
+  var number = "(609) 516-2304";
+  var address = "207 Prospect Street \n Glassboro, NJ 08028"
+  var email = "sam_alarcon847@gmail.com";
   document.getElementById("innerTopDiv").innerHTML = _text.innerHTML;
+  document.getElementById("callnumber").innerHTML = number;
+  document.getElementById("address").innerHTML = address;
+  document.getElementById("email").innerHTML =  ("<a href = mailto:"+email+">"+email+"</a>");
 }
 btn2.onclick = function() {
   modal.style.display = "block";
   var _text = document.getElementById('news3');
+  var address = "3895 Briarwood Drive \n Mantua, NJ 08090";
+  var number = "(856) 293-2393";
+  var email = "driarwooddrive3895@gmail.com";
   document.getElementById("innerTopDiv").innerHTML = _text.innerHTML;
+  document.getElementById("callnumber").innerHTML = number;
+  document.getElementById("address").innerHTML = address;
+  document.getElementById("email").innerHTML =  ("<a href = mailto:"+email+">"+email+"</a>");
 }
 btn3.onclick = function() {
   modal.style.display = "block";
   var _text = document.getElementById('news4');
+  var number = "(856) 383 3938";
+  var address = "4680 Caynor Circle \n Gibbstown, NJ 08027";
+  var email = "tomasshenkel856@yahoo.com";
   document.getElementById("innerTopDiv").innerHTML = _text.innerHTML;
+  document.getElementById("callnumber").innerHTML = number;
+  document.getElementById("address").innerHTML = address;
+  document.getElementById("email").innerHTML =  ("<a href = mailto:"+email+">"+email+"</a>");
 }
 btn4.onclick = function() {
   modal.style.display = "block";
   var _text = document.getElementById('news4');
+  var number = "(856) 312-0203";
+  var address = "4149 Valley Street \n Bridgeport, NJ 08014";
+  var email = "justina_medved123@gmail.com"
   document.getElementById("innerTopDiv").innerHTML = _text.innerHTML;
+  document.getElementById("callnumber").innerHTML = number;
+  document.getElementById("address").innerHTML = address;
+  document.getElementById("email").innerHTML =  ("<a href = mailto:"+email+">"+email+"</a>");
 }
 btn5.onclick = function() {
   modal.style.display = "block";
   var _text = document.getElementById('news5');
-
+  var number = "(856) 189-9282";
+  var address = "3727 Prospect Street \n Woodbury, NJ 08096";
+  var email  = "Oddsusan@gmail.com";
   document.getElementById("innerTopDiv").innerHTML = _text.innerHTML;
+  document.getElementById("callnumber").innerHTML = number;
+  document.getElementById("address").innerHTML = address;
+  document.getElementById("email").innerHTML =  ("<a href = mailto:"+email+">"+email+"</a>");
 }
 span.onclick = function() {
   modal.style.display = "none";
