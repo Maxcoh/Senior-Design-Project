@@ -158,7 +158,7 @@
 
   <div class="modal-content">
     <span class="close">&times;</span>
-    <form id="form1" align="center">
+    <form action = "/myform" id="form1" align="center" method = "GET">
       <span class = "innerHTML">
       <!-- <label id="innerTopDiv">Contact Details</label></span> -->
       <h1> Contact Details </h1>
@@ -202,6 +202,7 @@ var btn2 = document.getElementById("myBtn2");
 var btn3 = document.getElementById("myBtn3");
 var btn4 = document.getElementById("myBtn4");
 var btn5 = document.getElementById("myBtn5");
+var message = document.getElementById("desid");
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
@@ -286,22 +287,8 @@ function ReplaceString() {
 
 alert("Message Sent!!!")
 
+
 }
-
-var twilio = require('twilio');
-var accountSid = 'ACa2c83dc5fad1a4c48dce2ca2de4853f8'; // Your Account SID from www.twilio.com/consol
-var authToken = '57febbef17ce0ec3e386bf9966014c5d';
-
-var twilio = require('twilio');
-
-var client = new twilio(accountSid, authToken);
-
-client.messages.create({
-    body: 'Hello from Node',
-    to: '+14849298853',  // Text this number
-    from: '+12563048106' // From a valid Twilio number
-})
-.then((message) => console.log(message.sid));
 
 
 
