@@ -92,68 +92,16 @@
   <table class="table" id="myTable">
     <thead>
       <tr class="something">
-        <th class="col-md-2">Alerts</th>
-        <th class="col-md-3">Status</th>
-        <th class="col-md-6">Date & Time</th>
-        <!-- <th class="col-md-4">Description</th> -->
-        <th class="col-md-6"></th>
-        <th class="col-md-6"></th>
-        <th class="col-md-6"></th>
+        <th height="80" class="col-md-2">Aid</th>
+        <th height="80" class="col-md-2">Alerts</th>
+        <th height="80" class="col-md-3">Status</th>
+        <th height="80" class="col-md-6">Date & Time</th>
+        <th height="80" class="col-md-4">Description</th>
+        <th height="80" class="col-md-6"></th>
+        <th height="80" class="col-md-6"></th>
+        <th height="80" class="col-md-6"></th>
       </tr>
     </thead>
-    <tbody>
-      <tr class="warning">
-        <td height="80" id="news1">Major delays on I-80 due to overturned dump truck, debris spill</td>
-        <td height="80">Published</td>
-        <td height="80">May 04 7:00 PM</td>
-        <td height="80" id="myBtn" ><u>Edit</u></td>
-        <td height="80" onclick="myFunction()"><u>Delete</u></td>
-        <td height="80" onclick="alertbox()"><button> Push </button></td>
-      </tr>
-      <tr class="success">
-        <td height="80" id="news2">Motorcycle accidents have made a deadly spike in N.J.</td>
-        <td height="80">Published</td>
-        <td height="80">March 03 5:30 PM</td>
-        <td height="80" id="myBtn1"><u>Edit</u></td>
-        <td height="80" onclick="myFunction()"><u>Delete</u></td>
-        <td height="80" onclick="alertbox()"><button> Push </button></td>
-      </tr>
-      <tr class="danger">
-        <td height="80" id="news3">
-NJ Transit train hits, kills 2 people on tracks in Hackensack</td>
-        <td height="80">Published</td>
-        <td height="80">March 02 12:30 PM</td>
-        <td height="80" id="myBtn2"><u>Edit</u></td>
-        <td height="80" onclick="myFunction()"><u>Delete</u></td>
-        <td height="80" onclick="alertbox()"><button> Push </button></td>
-      </tr>
-      <tr class="info">
-        <td height="80" id="news4">
-Tractor-trailer fire on I-78 causes massive traffic delays, smoke visible for miles</td>
-        <td height="80">Published</td>
-        <td height="80">March 01 1:30 AM</td>
-
-        <td height="80" id="myBtn3"><u>Edit</u></td>
-        <td height="80" onclick="myFunction()"><u>Delete</u></td>
-        <td height="80" onclick="alertbox()"><button> Push </button></td>
-      </tr>
-      <tr class="warning">
-        <td height="80" id="news5">5-car accident in South Brunswick</td>
-        <td height="80">Published</td>
-        <td height="80">March 02 11:30 PM</td>
-        <td height="80" id="myBtn4"><u>Edit</u></td>
-        <td height="80" onclick="myFunction()"><u>Delete</u></td>
-        <td height="80" onclick="alertbox()"><button> Push </button></td>
-      </tr>
-      <tr class="active">
-        <td height="80" id="news6">Traffic alert: Route 18 reopened after tanker truck crash</td>
-        <td height="80">Published</td>
-        <td height="80">March 01 6:30 PM</td>
-        <td height="80" id="myBtn5"><u>Edit</u></td>
-        <td height="80" onclick="myFunction()"><u>Delete</u></td>
-        <td height="80" onclick="alertbox()"><button> Push </button></td>
-      </tr>
-    </tbody>
   </table>
   <div id="myModal" class="modal">
 
@@ -174,7 +122,7 @@ Tractor-trailer fire on I-78 causes massive traffic delays, smoke visible for mi
         <br><br>
         <input type= "submit" value="Cancel">
 
-        <input type= "submit" value="Save" onclick="ReplaceString()">
+        <input type= "button" value="Save" onclick="ReplaceString()">
 
       </form>
     </div>
@@ -184,15 +132,81 @@ Tractor-trailer fire on I-78 causes massive traffic delays, smoke visible for mi
 
 
 
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.16.min.js"></script>
 
   <script>
-    function myFunction() {
-      document.getElementById("myTable").deleteRow(1);
+
+    AWS.config.update({
+      region: "us-east-1",
+      endpoint: 'https://dynamodb.us-east-1.amazonaws.com',
+      accessKeyId: "AKIAI43SMJUCJP57ATWA",
+      secretAccessKey: "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"
+    });
+
+    var dynamodb = new AWS.DynamoDB();
+    var docClient = new AWS.DynamoDB.DocumentClient();
+    var editID = -1;
+
+    function deleteBox(cellID) {
+      var id = parseInt(cellID.id[1]);
+      var table = document.getElementById("myTable");
+      for (var i = 0, row; row = table.rows[i]; i++) {
+	 if(row.cells[5].id[1] === cellID.id[1])
+		table.deleteRow(i)
+      }
     }
 
-    function alertbox(val) {
-      var valueof = document.getElementById("alertid").innerHTML;
-      alert("Pushed the Alert " + valueof);
+    function alertBox() {
+      alert("Pressed!");
+    }
+
+    function editBox(cellID) {
+      modal.style.display = "block";
+      editID = parseInt(cellID.id[1]);
+      var _text = document.getElementById(cellID);
+      document.getElementById("_header").innerHTML = _text.innerHTML;
+    }
+
+    function createTable() {
+      var table = document.getElementById("myTable");
+
+      var params = {
+        TableName : "Alerts",
+        FilterExpression: "IsPushed = :i",
+        ExpressionAttributeValues: { ":i": false }
+      };
+
+      docClient.scan(params, function(err, data) 
+      {
+        if (err) {
+            alert("Error: " + JSON.stringify(err, undefined, 2));
+        } else {
+	    var j = 1;
+            data.Items.forEach(function(item) {
+		var row = table.insertRow(j);
+		if(item.Status === "High Alert")
+			row.className = "danger";
+		else
+			row.className = "warning";
+
+		var cells = [];
+		for(var i = 0; i < 8; i++) {
+			var cell = row.insertCell(i)
+			cell.id = "C" + j + "" + i;
+			cells.push(cell);
+		}	
+		cells[0].innerHTML = item.Aid;
+		cells[1].innerHTML = item.Title;
+		cells[2].innerHTML = item.Status;
+		cells[3].innerHTML = item.Time;
+		cells[4].innerHTML = item.Description;
+		cells[5].innerHTML = "<button onclick=\"editBox(" + cells[5].id + ")\">Edit</button>";
+		cells[6].innerHTML = "<button onclick=\"deleteBox(" + cells[6].id + ")\">Delete</button>";
+		cells[7].innerHTML = "<button onclick=\"alertBox()\">Push</button>";
+		j++;
+            });
+        }
+      });
     }
 
     function formpop() {
@@ -207,21 +221,33 @@ Tractor-trailer fire on I-78 causes massive traffic delays, smoke visible for mi
 
     }
 
-  function ReplaceString() {
+    function ReplaceString() 
+    {
+	var valueoftitle = document.getElementById("alertid").value;
+	var valueofdes = document.getElementById("desid").value;
+	var table = document.getElementById("myTable");
 
-  var str = document.getElementById("news1").innerHTML;
-  var res = str.replace(str, alertid);
-  document.getElementById("news1").innerHTML = res;
-  var valueoftitle = document.getElementById("alertid").value;
-  var valueofdes = document.getElementById("desid").value;
+	var params = {
+	   TableName : "Alerts",
+	   Key:{ "Aid": parseInt(table.rows[editID].cells[0].innerHTML) },
+	   UpdateExpression: "set Description = :val",
+    	   ExpressionAttributeValues:{ ":val": valueofdes },
+	   ReturnValues:"UPDATED_NEW"
+	};
 
-  alert("Saved the News Title and Description: " + "\n" + "Alert Title: " + valueoftitle +"\n" + "Description: " + valueofdes)
+	docClient.update(params, function(err, data) {
+	    if (err) {
+	        alert("UpdateItem failed!");
+	        console.error("Unable to update item. Error JSON:", JSON.stringify(err, null, 2));
+	    } else {
+	        alert("UpdateItem succeeded!");
+ 	    }
+	});
+    }
 
- }
 
 
-
-
+    createTable();
 
     var modal = document.getElementById('myModal');
 
@@ -235,37 +261,6 @@ Tractor-trailer fire on I-78 causes massive traffic delays, smoke visible for mi
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
 
-    // When the user clicks the button, open the modal
-    btn.onclick = function() {
-      modal.style.display = "block";
-      var _text = document.getElementById('news1');
-      document.getElementById("_header").innerHTML = _text.innerHTML;
-    }
-    btn1.onclick = function() {
-      modal.style.display = "block";
-      var _text = document.getElementById('news2');
-      document.getElementById("_header").innerHTML = _text.innerHTML;
-    }
-    btn2.onclick = function() {
-      modal.style.display = "block";
-      var _text = document.getElementById('news3');
-      document.getElementById("_header").innerHTML = _text.innerHTML;
-    }
-    btn3.onclick = function() {
-      modal.style.display = "block";
-      var _text = document.getElementById('news4');
-      document.getElementById("_header").innerHTML = _text.innerHTML;
-    }
-    btn4.onclick = function() {
-      modal.style.display = "block";
-      var _text = document.getElementById('news4');
-      document.getElementById("_header").innerHTML = _text.innerHTML;
-    }
-    btn5.onclick = function() {
-      modal.style.display = "block";
-      var _text = document.getElementById('news5');
-      document.getElementById("_header").innerHTML = _text.innerHTML;
-    }
     span.onclick = function() {
       modal.style.display = "none";
     }
