@@ -57,6 +57,8 @@
       text-decoration: none;
       cursor: pointer;
     }
+    /* .plus .date { float:right } */
+    .plus { float:right }
   </style>
 </head>
 
@@ -83,8 +85,13 @@
   <div class="container">
     <h3>Alerts</h3>
     <p>Alerts </p>
-  </div>
 
+  </div>
+<div class = "plus">
+  <a href="#" class="btn btn-info btn-lg">
+        <span class="glyphicon glyphicon-plus-sign" onclick="createTable()"></span>
+      </a>
+</div>
 <!-- <div id = "container"> Try to change your xml data to update this content </div> -->
 <script src = "socket.io/socket.io.js"></script>
 <script src = "http://code.jquery.com/jquery-1.7.1.min.js"></script>
@@ -96,7 +103,7 @@
         <th height="80" class="col-md-2">Alerts</th>
         <th height="80" class="col-md-3">Status</th>
         <th height="80" class="col-md-6">Date & Time</th>
-        <th height="80" class="col-md-4">Description</th>
+        <th height="80" class="col-md-2">Description</th>
         <th height="80" class="col-md-6"></th>
         <th height="80" class="col-md-6"></th>
         <th height="80" class="col-md-6"></th>
@@ -176,7 +183,7 @@
         ExpressionAttributeValues: { ":i": false }
       };
 
-      docClient.scan(params, function(err, data) 
+      docClient.scan(params, function(err, data)
       {
         if (err) {
             alert("Error: " + JSON.stringify(err, undefined, 2));
@@ -194,7 +201,8 @@
 			var cell = row.insertCell(i)
 			cell.id = "C" + j + "" + i;
 			cells.push(cell);
-		}	
+
+		}
 		cells[0].innerHTML = item.Aid;
 		cells[1].innerHTML = item.Title;
 		cells[2].innerHTML = item.Status;
@@ -221,7 +229,7 @@
 
     }
 
-    function ReplaceString() 
+    function ReplaceString()
     {
 	var valueoftitle = document.getElementById("alertid").value;
 	var valueofdes = document.getElementById("desid").value;
