@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <link rel="icon" href="logo.png">
-  <title>Welcome to Gloucester County NJ</title>
+  <title>Residents Status</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -66,7 +66,9 @@
     }
   
   </style>
+
 </head>
+
 <body>
 
 <nav class="navbar navbar-inverse role=navigation">
@@ -158,7 +160,7 @@
 
   <div class="modal-content">
     <span class="close">&times;</span>
-    <form action = "/myform" id="form1" align="center" method = "GET">
+    <form  id="form1" align="center" >
       <span class = "innerHTML">
       <!-- <label id="innerTopDiv">Contact Details</label></span> -->
       <h1> Contact Details </h1>
@@ -184,12 +186,16 @@
       <br><br>
       <input type= "submit" value="Cancel">
 
-      <input type= "submit" value="Message" onclick="ReplaceString()">
+      <input type= "submit" value="Message" onClick="operation()">
 
     </form>
   </div>
 
 </div>
+
+
+
+
 </body>
 
 <script>
@@ -282,20 +288,19 @@ window.onclick = function(event) {
   }
 }
 
-function ReplaceString() {
 
 
-alert("Message Sent!!!")
 
+
+function operation()
+{
+  var text = document.getElementById("desid").value;
+  alert("Message Sent!!!")
+  location.href = window.open("http://localhost:8083" + "?number1=" + text);
 
 }
 
-$("#form1").submit(function (event) {
-  $.post('/route', $("#formId").serialize(), function (data) {
- 	console.log(data) //data is the response from the backend
-  });
-  event.preventDefault();
-});
+
 
 </script>
 
