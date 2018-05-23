@@ -38,46 +38,16 @@
 
 
 
-<table class="table" width="200">
+<table class="table" id="myTable" width="200">
   <thead>
     <tr class = "something">
-      <th class="col-md-2">News</th>
-      <th class="col-md-3">Status</th>
-      <th class="col-md-6">Date</th>
+      <th class="col-md-2">News ID</th>
+      <th class="col-md-2">Author</th>
+      <th class="col-md-2">Date</th>
+      <th class="col-md-6">Headline</th>
+      <th class="col-md-6">Text</th>
     </tr>
   </thead>
-  <tbody>
-    <tr>
-      <td height = "80">News 1 Title</td>
-      <td height = "80">Published</td>
-      <td height = "80">03/04/2018</td>
-    </tr>
-    <tr class="success">
-      <td height = "80">News 2 Title</td>
-      <td height = "80">Published</td>
-      <td height = "80">03/04/2018</td>
-    </tr>
-    <tr class="danger">
-      <td height = "80">News 3 Title</td>
-      <td height = "80">Published</td>
-      <td height = "80">03/04/2018</td>
-    </tr>
-    <tr class="info">
-      <td height = "80">News 4 Title</td>
-      <td height = "80">Published</td>
-      <td height = "80">03/04/2018</td>
-    </tr>
-    <tr class="warning">
-      <td height = "80">News 5 Title</td>
-      <td height = "80">Published</td>
-      <td height = "80">03/03/2018</td>
-    </tr>
-    <tr class="active">
-      <td height = "80">News 6 Title</td>
-      <td height = "80">Published</td>
-      <td height = "80">03/03/2018</td>
-    </tr>
-  </tbody>
 </table>
 
 
@@ -94,6 +64,56 @@ $('#container').html(data.sample);
 
 
 
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.7.16.min.js"></script>
+
+  <script>
+
+    AWS.config.update({
+      region: "us-east-1",
+      endpoint: 'https://dynamodb.us-east-1.amazonaws.com',
+      accessKeyId: "AKIAI43SMJUCJP57ATWA",
+      secretAccessKey: "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"
+    });
+
+    var dynamodb = new AWS.DynamoDB();
+    var docClient = new AWS.DynamoDB.DocumentClient();
+    var editID = -1;
+
+    function createTable() {
+      var table = document.getElementById("myTable");
+
+      var params = {
+        TableName : "News"
+      };
+
+      docClient.scan(params, function(err, data) 
+      {
+        if (err) {
+            alert("Error: " + JSON.stringify(err, undefined, 2));
+        } else {
+	    var j = 1;
+            data.Items.forEach(function(item) {
+		var row = table.insertRow(j);
+
+		var cells = [];
+		for(var i = 0; i < 5; i++) {
+			var cell = row.insertCell(i)
+			cell.id = "N" + j + "" + i;
+			cells.push(cell);
+		}	
+		cells[0].innerHTML = item.Nid;
+		cells[1].innerHTML = item.author_fname + " " + item.author_lname;
+		cells[2].innerHTML = item.news_date;
+		cells[3].innerHTML = item.news_headline;
+		cells[4].innerHTML = item.news_text;
+		j++;
+            });
+        }
+      });
+    }
+
+    createTable();
+  </script>
 
 </body>
 </html>
